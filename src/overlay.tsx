@@ -5,7 +5,7 @@ import { InputText } from 'primereact/inputtext';
 
 export default function RowSelection({rowsToBeSelected}:{rowsToBeSelected:(rows:number)=>void}) {
     const [selectedRows, setSelectedRows] = React.useState<number>(0);
-    function handleClick(e: any) {
+    function handleClick() {
         rowsToBeSelected(selectedRows);
         console.log(selectedRows);
         op.current?.hide();

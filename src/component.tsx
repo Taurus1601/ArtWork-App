@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
@@ -19,10 +19,9 @@ interface Data {
 
 function Component() {
   const [details, setDetails] = useState<Data[]>([]);
-  const [detailsSel, setDetailsSel] = useState<Data[]>([]);
 
   const [selectedDetails, setSelectedDetails] = useState<Data[]>([]);
-  const [rowClick, setRowClick] = useState<boolean>(true);
+  const [rowClick, setRowClick] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [totalRecords, setTotalRecords] = useState<number>(0);
   const [first, setFirst] = useState<number>(0);
@@ -34,6 +33,10 @@ const [selectedrows , setSelectedRows] = useState<number[]>([]);
   useEffect(() => {
     fetchApi(page).then((data) => {setDetails(data.data)
         setTotalRecords(data.pagination.total_pages);
+  setRowClick(true);
+  setSelectedRows([])
+
+        
     });
   }, [page]);
   const onPageChange = (event: any) => {
