@@ -1,7 +1,7 @@
 import  { useState, useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import "primereact/resources/themes/lara-light-cyan/theme.css";
+import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import fetchApi from "./api";
 import { Paginator } from 'primereact/paginator';
@@ -16,6 +16,8 @@ interface Data {
   date_start: number;
   date_end: number;
 }
+
+
 
 function Component() {
   const [details, setDetails] = useState<Data[]>([]);
@@ -46,26 +48,36 @@ const [selectedrows , setSelectedRows] = useState<number[]>([]);
     }
     // setPage(page+1); // PrimeReact paginator is zero-based, so we add 1
   };
-
-function rowsToBeSelected(rows: number) {
+  function rowsToBeSelected(rows: number) {
     console.log(rows);
-   
-    setSelectedDetails(details.slice(0, rows)); 
+
+    setSelectedDetails(details.slice(0, 12)); 
 
     if (rows > 12) {
-        let remaining = rows - 12;
-        const pagesToFetch = Math.ceil(remaining / 12);
-        console.log(pagesToFetch , remaining);
+        let remaining = rows - 12;  
+        let accumulatedData: Data[] = [...details.slice(0, 12)];  
 
-        for (let i = page; i <=pagesToFetch; i++) {
-            fetchApi(page + i).then((data) => {
+        const pagesToFetch = Math.ceil(remaining / 12);  
+
+        const fetchPages = async () => {
+            for (let i = 1; i <= pagesToFetch; i++) {
+                const data = await fetchApi(page + i);  
+
+                const sliceAmount = Math.min(remaining, data.data.length);  
+                accumulatedData = [...accumulatedData, ...data.data.slice(0, sliceAmount)];
                 
-                setSelectedDetails((prev) => {
-                    return [...prev, ...data.data.slice(0, remaining)]; 
-                });
-                
-            });}
-     }   }
+                remaining -= sliceAmount;
+                if (remaining <= 0) break;  
+            }
+
+            // Set the accumulated data as the selected details
+            setSelectedDetails(accumulatedData);
+        };
+
+        fetchPages();
+    }
+}
+
  
   return (
     
@@ -112,7 +124,8 @@ function rowsToBeSelected(rows: number) {
             />
             <Column field="date_end" header="Date End" style={{ width: "20%" }} />
           </DataTable>
-          <Paginator first={first}
+          <Paginator first={first} template={{ layout: ' FirstPageLink PrevPageLink \
+           PageLinks NextPageLink LastPageLink JumpToPageInput' }}
           rows={12} totalRecords={totalRecords} rowsPerPageOptions={[4,8,12]} onPageChange={onPageChange} />
         </div>
     </div>
@@ -120,4 +133,6 @@ function rowsToBeSelected(rows: number) {
 }
 export default Component;
 
+
+// 
 
