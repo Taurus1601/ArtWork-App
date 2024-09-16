@@ -8,11 +8,12 @@ export default function RowSelection({rowsToBeSelected}:{rowsToBeSelected:(rows:
     function handleClick(e: any) {
         rowsToBeSelected(selectedRows);
         console.log(selectedRows);
+        op.current?.hide();
     }
     const op = useRef<OverlayPanel>(null);
 
     return (
-        <div className=" inline-block  bg-green-500">
+        <div className=" inline-block    ">
             <Button type="button" label="&#8964;" onClick={(e) => op.current?.toggle(e)} />
             <OverlayPanel ref={op} >
                 <div className='flex flex-col gap-2 '>

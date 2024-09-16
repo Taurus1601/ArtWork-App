@@ -66,49 +66,52 @@ function rowsToBeSelected(rows: number) {
  
   return (
     
-    <div className="card">
-        {page}
-              <RowSelection  rowsToBeSelected={rowsToBeSelected}/>
-
-      <DataTable
-        value={details}
-        selectionMode={rowClick ? null : "multiple"}
-        selection={selectedDetails!}
-        
-        onSelectionChange={
-            (e: any) => {setSelectedDetails(e.value)
-                console.log(e.value);
-               console.log(selectedrows);
-        }}  
-        tableStyle={{ minWidth: "50rem" }}
-      >
-        <Column selectionMode="multiple" headerStyle={{ width: "6rem" }} />
-        <Column field="title" header="Title" style={{ width: "20%" }} />
-        <Column
-          field="place_of_origin"
-          header="Origin"
-          style={{ width: "20%" }}
-        />
-        <Column
-          field="artist_display"
-          header="Artist Display"
-          style={{ width: "20%" }}
-        />
-        <Column
-          field="inscriptions"
-          header="Inscription"
-          style={{ width: "20%" }}
-        />
-        <Column
-          field="date_start"
-          header="Date Start"
-          style={{ width: "20%" }}
-        />
-        <Column field="date_end" header="Date End" style={{ width: "20%" }} />
-      </DataTable>
-      <Paginator first={first}
-      rows={12} totalRecords={totalRecords} rowsPerPageOptions={[4,8,12]} onPageChange={onPageChange} />
-
+    <div className="p-10">
+        <div className="card relative p-2 border-indigo-300 border-2 rounded-xl bg-white">
+                  <div className="absolute z-50 top-8 left-[10%] scale-[200%]">
+                      <RowSelection  rowsToBeSelected={rowsToBeSelected} />
+                  </div>
+          <DataTable
+            value={details}
+            selectionMode={rowClick ? null : "multiple"}
+            selection={selectedDetails!}
+            style={{borderRadius:20}}
+            onSelectionChange={
+                (e: any) => {setSelectedDetails(e.value)
+                    console.log(e.value);
+                   console.log(selectedrows);
+            }}
+            tableStyle={{ minWidth: "50rem" }}
+            className="rounded-sm"
+          >
+            <Column selectionMode="multiple" headerStyle={{ width: "6rem" }}
+            />
+            <Column field="title" header="Title" style={{ width: "20%" }} />
+            <Column
+              field="place_of_origin"
+              header="Origin"
+              style={{ width: "20%" }}
+            />
+            <Column
+              field="artist_display"
+              header="Artist Display"
+              style={{ width: "20%" }}
+            />
+            <Column
+              field="inscriptions"
+              header="Inscription"
+              style={{ width: "20%" }}
+            />
+            <Column
+              field="date_start"
+              header="Date Start"
+              style={{ width: "20%" }}
+            />
+            <Column field="date_end" header="Date End" style={{ width: "20%" }} />
+          </DataTable>
+          <Paginator first={first}
+          rows={12} totalRecords={totalRecords} rowsPerPageOptions={[4,8,12]} onPageChange={onPageChange} />
+        </div>
     </div>
   );
 }
